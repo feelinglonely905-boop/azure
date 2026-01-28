@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>AZURE Reader</title>
+
+<style>
+body {
+  margin:0;
+  background:#000;
+  color:white;
+  font-family:Arial;
+}
+
+.header {
+  background:#111;
+  padding:15px;
+  text-align:center;
+  position:sticky;
+  top:0;
+}
+
+.reader img {
+  width:100%;
+  display:block;
+}
+
+.comment-box {
+  padding:15px;
+  background:#111;
+}
+
+.comment-box input,
+.comment-box textarea {
+  width:100%;
+  padding:8px;
+  margin-bottom:8px;
+  background:#222;
+  color:white;
+  border:none;
+}
+
+.comment-box button {
+  padding:8px 15px;
+  background:#4da6ff;
+  border:none;
+  color:black;
+}
+
+.comment {
+  background:#222;
+  padding:10px;
+  margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  Judul Komik (kosong dulu)
+</div>
+
+<div class="reader">
+  <img src="https://via.placeholder.com/800x1200">
+  <img src="https://via.placeholder.com/800x1200">
+</div>
+
+<div class="comment-box">
+  <h3>Komentar</h3>
+
+  <input id="name" placeholder="Nama (bebas)">
+  <textarea id="text" placeholder="Tulis komentar..."></textarea>
+  <button onclick="sendComment()">Kirim</button>
+
+  <div id="comments"></div>
+</div>
+
+<script>
+let comments = JSON.parse(localStorage.getItem("azureComments")) || [];
+
+function render() {
+  document.getElementById("comments").innerHTML = "";
+  comments.forEach(c => {
+    document.getElementById("comments").innerHTML +=
+      `<div class="comment"><b>${c.name}</b><br>${c.text}</div>`;
+  });
+}
+
+function sendComment() {
+  let name = document.getElementById("name").value || "Anonim";
+  let text = document.getElementById("text").value;
+  if(text === "") return;
+
+  comments.push({name, text});
+  localStorage.setItem("azureComments", JSON.stringify(comments));
+  document.getElementById("text").value = "";
+  render();
+}
+
+render();
+</script>
+
+</body>
+  </html>
+  
